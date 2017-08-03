@@ -56,7 +56,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        return id;
+        return id * 17;
     }
 
     @Override

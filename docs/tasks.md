@@ -8,6 +8,7 @@
 * id
 * name
 * car
+* money
 * phone
 * pass
 ### Car
