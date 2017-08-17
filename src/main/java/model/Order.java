@@ -9,7 +9,7 @@ public class Order {
     private Address from;
     private Address to;
     private OrderState orderState;
-    private double price;
+    private int price;
     private double distance;
     private User client;
     private Driver driver;
@@ -18,7 +18,7 @@ public class Order {
     }
 
     public Order(int id, Address from, Address to,
-                 OrderState orderState, double price,
+                 OrderState orderState, int price,
                  double distance, User client, Driver driver) {
         this.id = id;
         this.from = from;
@@ -57,5 +57,69 @@ public class Order {
                 ", client=" + client +
                 ", driver=" + driver +
                 '}';
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Address getFrom() {
+        return from;
+    }
+
+    public void setFrom(Address from) {
+        this.from = from;
+    }
+
+    public Address getTo() {
+        return to;
+    }
+
+    public void setTo(Address to) {
+        this.to = to;
+    }
+
+    public OrderState getOrderState() {
+        return orderState;
+    }
+
+    public void setOrderState(OrderState orderState) {
+        this.orderState = orderState;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    public User getClient() {
+        return client;
+    }
+
+    public void setClient(User client) {
+        this.client = client;
+    }
+
+    public Driver getDriver() {
+        return driver;
+    }
+
+    public void setDriver(Driver driver) {
+        this.driver = driver;
     }
 }
