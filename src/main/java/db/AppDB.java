@@ -9,7 +9,7 @@ import java.util.*;
 
 public class AppDB {
 
-    private int userCoutId = 0;
+    private int userCountId = 0;
     private int orderIdCount = 0;
 
     private Map<String, User> accessTokenUserMap;
@@ -30,9 +30,9 @@ public class AppDB {
     }
 
     public User addUser(User user){
-        user.setId(userCoutId);
-        userMap.put(userCoutId, user);
-        userCoutId++;
+        user.setId(userCountId);
+        userMap.put(userCountId, user);
+        userCountId++;
         return user;
     }
 
@@ -73,5 +73,9 @@ public class AppDB {
         return history;
     }
 
+    public Order cancelOrder(int id){
+        Order order = ordersMap.get(id);
 
+        return ordersMap.remove(id);
+    }
 }
