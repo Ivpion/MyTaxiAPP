@@ -5,24 +5,24 @@ package model;
  */
 public class Car {
 
-    private String color;
+    private CarColor color;
     private String carNumber;
     private String model;
 
     public Car() {
     }
 
-    public Car(String color, String carNumber, String model) {
+    public Car(CarColor color, String carNumber, String model) {
         this.color = color;
         this.carNumber = carNumber;
         this.model = model;
     }
 
-    public String getColor() {
+    public CarColor getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(CarColor color) {
         this.color = color;
     }
 
@@ -50,4 +50,6 @@ public class Car {
                 ", model='" + model + '\'' +
                 '}';
     }
+
+
 }

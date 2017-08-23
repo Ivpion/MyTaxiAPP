@@ -3,6 +3,8 @@ package controller;
 import db.AppDB;
 import exception.*;
 import model.*;
+import validator.IValidator;
+import validator.Validator;
 
 import java.util.List;
 
@@ -12,6 +14,7 @@ import java.util.List;
 public class UserController implements IUserController {
 
     private AppDB appDB = new AppDB();
+    IValidator validator = new Validator();
 
     public UserController() {
     }
@@ -22,11 +25,16 @@ public class UserController implements IUserController {
 
     @Override
     public User register(String login, String pass, String phone) throws RegisterException {
+        if (validator.validateRegistration(login,phone,pass)){
         User user = new User();
         user.setName(login);
         user.setPass(pass);
         user.setPhone(phone);
         return appDB.addUser(user);
+        } else {
+            throw new RegisterException("don`t validate input, try again");
+        }
+
     }
 
     @Override
