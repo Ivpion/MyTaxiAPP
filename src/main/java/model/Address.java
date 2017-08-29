@@ -58,4 +58,8 @@ public class Address {
                 ", number='" + number + '\'' +
                 '}';
     }
+
+    public String toFormatedAddress(){
+        return city + ", " + street + ", " + number;
+    }
 }
