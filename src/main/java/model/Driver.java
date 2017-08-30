@@ -3,7 +3,7 @@ package model;
 /**
  * Created by ivan on 03.08.17.
  */
-public class Driver {
+public class Driver extends User {
 
     private int id;
     private String name;

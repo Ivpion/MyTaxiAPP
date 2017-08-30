@@ -2,6 +2,7 @@ package controller;
 
 import db.AppDB;
 import exception.*;
+import geolocation.GoogleMaps;
 import model.*;
 import validator.IValidator;
 import validator.Validator;
@@ -14,7 +15,8 @@ import java.util.List;
 public class UserController implements IUserController {
 
     private AppDB appDB = new AppDB();
-    IValidator validator = new Validator();
+    private IValidator validator = new Validator();
+    private GoogleMaps geoloc = new GoogleMaps();
 
     public UserController() {
     }
@@ -24,13 +26,13 @@ public class UserController implements IUserController {
     }
 
     @Override
-    public User register(String login, String pass, String phone) throws RegisterException {
+    public Client register(String login, String pass, String phone) throws RegisterException {
         if (validator.validateRegistration(login,phone,pass)){
-        User user = new User();
-        user.setName(login);
-        user.setPass(pass);
-        user.setPhone(phone);
-        return appDB.addUser(user);
+        Client client = new Client();
+        client.setName(login);
+        client.setPass(pass);
+        client.setPhone(phone);
+        return appDB.addUser(client);
         } else {
             throw new RegisterException("don`t validate input, try again");
         }
@@ -39,33 +41,55 @@ public class UserController implements IUserController {
 
     @Override
     public String login(String login, String pass) throws LoginCredentialException {
-        User user = new User();
-        user.setName(login);
-        user.setPass(pass);
-        String accesToken = appDB.createAccessToken(user);
+        Client client = new Client();
+        client.setName(login);
+        client.setPass(pass);
+        String accesToken = appDB.createAccessToken(client);
 
         return accesToken;
     }
 
     @Override
-    public Address checkAddress(String stree, String num, String accessToken) throws InvalidAddressInfoException {
-        // google API
-        return null;
-    }
-
-    @Override
-    public Order makeOrder(Order orderRequest, double price, String accessToken) throws AppException {
+    public boolean checkAddress(Address address, String accessToken) throws AppException {
         if (!appDB.hasToken(accessToken)){
             throw new AppException("no access, login first");
         }
+
+            if (new GoogleMaps().getAddressFormatetPoint(address) != null){
+                return true;
+            } else {
+                throw new InvalidAddressInfoException("invalidate address, please choose address again");
+            }
+
+
+    }
+
+
+    @Override
+    public Order makeOrder(Address from, Address to, String accessToken) throws AppException {
+        Order newOrder = new Order();
+        if (!appDB.hasToken(accessToken)){
+            throw new AppException("no access, login first");
+        }
+        if (checkAddress(to, accessToken) && checkAddress(from, accessToken)){
+            newOrder.setTo(to);
+            newOrder.setFrom(from);
+            double distanceInKM = geoloc.getDistanceBetweenTwoPoints(to,from);
+            distanceInKM = distanceInKM/1000;
+            newOrder.setDistance(distanceInKM);
+            newOrder.setPrice();
+            newOrder.setOrderState(OrderState.NEW);
+            newOrder.setClient(appDB.getClientByToken(accessToken));
+        }
+
 
         //validation
         // business logic
         // check address
         // count distance
         // count price
-        Order order = appDB.addOrder(orderRequest);
-        return order;
+        newOrder = appDB.addOrder(newOrder);
+        return newOrder;
     }
 
     @Override
@@ -91,7 +115,7 @@ public class UserController implements IUserController {
 
     @Override
     public List<Order> showHistory(String accessToken) throws AppException {
-        return null;
+        return appDB.getAllHistory();
     }
 
     @Override

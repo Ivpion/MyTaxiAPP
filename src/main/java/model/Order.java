@@ -5,13 +5,16 @@ package model;
  */
 public class Order {
 
+    private static final int MIN_PRISE = 30;
+    private static final int PRISE_FOR_KM = 5;
+
     private int id;
     private Address from;
     private Address to;
     private OrderState orderState;
-    private int price;
+    private int price = 0;
     private double distance;
-    private User client;
+    private Client client;
     private Driver driver;
 
     public Order() {
@@ -19,7 +22,7 @@ public class Order {
 
     public Order(int id, Address from, Address to,
                  OrderState orderState, int price,
-                 double distance, User client, Driver driver) {
+                 double distance, Client client, Driver driver) {
         this.id = id;
         this.from = from;
         this.to = to;
@@ -95,23 +98,23 @@ public class Order {
         return price;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setPrice() {
+        this.price = MIN_PRISE + ((int)distance+1) * PRISE_FOR_KM;
     }
 
     public double getDistance() {
         return distance;
     }
 
-    public void setDistance(double distance) {
-        this.distance = distance;
+    public void setDistance(double distanceInKM) {
+        this.distance = distanceInKM;
     }
 
-    public User getClient() {
+    public Client getClient() {
         return client;
     }
 
-    public void setClient(User client) {
+    public void setClient(Client client) {
         this.client = client;
     }
 

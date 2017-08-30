@@ -1,7 +1,7 @@
 package model;
 
 /**
- * Created by ivan on 02.08.17.
+ * Created by ivan on 30.08.17.
  */
 public class User {
     private int id;
@@ -9,14 +9,19 @@ public class User {
     private String phone;
     private String pass;
 
-    public User() {
-    }
-
     public User(int id, String name, String phone, String pass) {
         this.id = id;
         this.name = name;
         this.phone = phone;
         this.pass = pass;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -43,36 +48,6 @@ public class User {
         this.pass = pass;
     }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        User user = (User) o;
-        return id == user.id;
-
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Override
-    public int hashCode() {
-        return id * 17;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                '}';
+    public User() {
     }
 }

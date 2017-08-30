@@ -1,9 +1,12 @@
 package controller;
 
-import exception.*;
+import exception.AppException;
+import exception.LoginCredentialException;
+import exception.NoOrderFoundException;
+import exception.RegisterException;
 import model.Address;
 import model.Order;
-import model.User;
+import model.Client;
 
 import java.util.List;
 
@@ -12,13 +15,13 @@ import java.util.List;
  */
 public interface IUserController {
 
-    User register(String login, String pass, String phone) throws RegisterException;
+    Client register(String login, String pass, String phone) throws RegisterException;
     // access token
     String login(String login, String pass) throws LoginCredentialException;
 
-    Address checkAddress(String stree, String num, String accessToken) throws InvalidAddressInfoException;
+    boolean checkAddress(Address address, String accessToken) throws AppException;
 
-    Order makeOrder(Order orderRequest, double price, String accessToken) throws AppException;
+    Order makeOrder(Address from, Address to, String accessToken) throws AppException;
 
     Order getOrderInfo(Integer id, String accessToken) throws AppException;
 

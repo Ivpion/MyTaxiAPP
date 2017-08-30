@@ -1,6 +1,7 @@
 package db;
 
 import exception.LoginCredentialException;
+import model.Client;
 import model.Order;
 import model.User;
 
@@ -9,13 +10,13 @@ import java.util.*;
 
 public class AppDB {
 
-    private int userCountId = 0;
-    private int orderIdCount = 0;
+    private static int userCountId = 0;
+    private static int  orderIdCount = 0;
 
     private Map<String, User> accessTokenUserMap;
     private Map<Integer, User> userMap;
     private Map<Integer, Order> ordersMap;
-    private List<Order> orders;
+    private List<Order> newOrders;
     private List<Order> history;
 
 
@@ -24,37 +25,33 @@ public class AppDB {
         accessTokenUserMap = new HashMap<>();
         ordersMap = new HashMap<>();
         history = new ArrayList<>();
-        orders = new LinkedList<>();
+        newOrders = new LinkedList<>();
 
 
     }
 
-    public User addUser(User user){
-        user.setId(userCountId);
-        userMap.put(userCountId, user);
+    public Client addUser(Client client){
+        client.setId(userCountId);
+        userMap.put(userCountId, client);
         userCountId++;
-        return user;
+        return client;
     }
 
     //login
     public String createAccessToken(User user) throws LoginCredentialException {
        User found = userMap.values().stream().filter(
-                u -> u.getPhone().equals(user.getPhone()) && u.getPass().equals(user.getPass())).
+                u -> u.getName().equals(user.getName()) && u.getPass().equals(user.getPass())).
                findFirst().get();
-       if (found == null){
-           throw new LoginCredentialException("invalid login or pass");
-       } else {
-           String accessKey = UUID.randomUUID().toString();
-           accessTokenUserMap.put(accessKey, found);
-           return accessKey;
-       }
+        String accessKey = UUID.randomUUID().toString();
+        accessTokenUserMap.put(accessKey, found);
+        return accessKey;
 
     }
 
     public Order addOrder(Order order){
         order.setId(orderIdCount);
         ordersMap.put(orderIdCount, order);
-        orders.add(order);
+        newOrders.add(order);
         orderIdCount++;
 
         return order;
@@ -77,5 +74,8 @@ public class AppDB {
         Order order = ordersMap.get(id);
 
         return ordersMap.remove(id);
+    }
+    public User getClientByToken(String accessToken){
+        return accessTokenUserMap.get(accessToken);
     }
 }
