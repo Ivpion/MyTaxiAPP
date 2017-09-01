@@ -2,6 +2,7 @@ package db;
 
 import exception.LoginCredentialException;
 import model.Client;
+import model.Driver;
 import model.Order;
 import model.User;
 
@@ -30,11 +31,18 @@ public class AppDB {
 
     }
 
-    public Client addUser(Client client){
+    public Client addClient(Client client){
         client.setId(userCountId);
         userMap.put(userCountId, client);
         userCountId++;
         return client;
+    }
+
+    public Driver addDriver(Driver driver){
+        driver.setId(userCountId);
+        userMap.put(userCountId, driver);
+        userCountId++;
+        return driver;
     }
 
     //login
@@ -75,7 +83,7 @@ public class AppDB {
 
         return ordersMap.remove(id);
     }
-    public User getClientByToken(String accessToken){
+    public User getUserByToken(String accessToken){
         return accessTokenUserMap.get(accessToken);
     }
 }

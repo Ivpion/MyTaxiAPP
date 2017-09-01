@@ -20,5 +20,5 @@ public interface IDriverController {
 
     Order finishOrder(Order tookOrder, String accessToken)throws AppException;
 
-    Car changeCar(Car newCar) throws AppException;
+    Car changeCar(Car newCar, String accessToken) throws AppException;
 }

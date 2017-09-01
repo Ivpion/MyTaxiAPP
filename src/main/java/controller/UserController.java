@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class UserController implements IUserController {
 
-    private AppDB appDB = new AppDB();
+    protected static AppDB appDB = new AppDB();
     private IValidator validator = new Validator();
     private GoogleMaps geoloc = new GoogleMaps();
 
@@ -32,7 +32,7 @@ public class UserController implements IUserController {
         client.setName(login);
         client.setPass(pass);
         client.setPhone(phone);
-        return appDB.addUser(client);
+        return appDB.addClient(client);
         } else {
             throw new RegisterException("don`t validate input, try again");
         }
@@ -79,7 +79,7 @@ public class UserController implements IUserController {
             newOrder.setDistance(distanceInKM);
             newOrder.setPrice();
             newOrder.setOrderState(OrderState.NEW);
-            newOrder.setClient(appDB.getClientByToken(accessToken));
+            newOrder.setClient((Client) appDB.getUserByToken(accessToken));
         }
 
 
